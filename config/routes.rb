@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
-  get '/login', to: "sessions#new"
-  post '/sessions', to: 'sessions#create'
-  get '/logout', to: 'sessions#destroy'
+  root "main#home"
+  get '/about',to: "main#about"
 
-  # root 'main#home'
-  resources :users
+  get "/login", to: "sessions#new"
+  get "/logout", to: "sessions#destroy"
+  post "/sessions", to: "sessions#create"
+
+  resources :users do
+    resources :questions, except: [:new, :index]
+    get "/unanswered_questions", to: "questions#unanswered_questions"
+    # resources :questions
+  end
+
 end
